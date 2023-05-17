@@ -1,16 +1,13 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-const initialUserForm = {
-    username: '',
-    password: '',
-    email: ''
-}
-
-
-export const UserForm = ({handlerAddUser}) => {
+export const UserForm = ({userSelected, handlerAddUser, initialUserForm}) => {
     const [userForm, setUserForm] = useState(initialUserForm);
+    const {username, password, email, id} = userForm;
 
-    const {username, password, email} = userForm;
+    useEffect(() => {
+        setUserForm({...userSelected})
+    }, [userSelected]);
+
     const onInputChabge = ({target}) => {
         const {name, value} = target;
         setUserForm({
@@ -25,7 +22,6 @@ export const UserForm = ({handlerAddUser}) => {
             alert("Complete los formularios");
             return;
         }
-        console.log(userForm)
         handlerAddUser(userForm);
         setUserForm(initialUserForm);
     }
@@ -36,8 +32,9 @@ export const UserForm = ({handlerAddUser}) => {
               <input value={username} onChange={onInputChabge} type="text" className={"form-control my-3 w-75"} placeholder={"Username"} name={"username"}/>
               <input value={password} onChange={onInputChabge} type="password" className={"form-control my-3 w-75"} placeholder={"Password"} name={"password"}/>
               <input value={email} onChange={onInputChabge} type="text" className={"form-control my-3 w-75"} placeholder={"Email"} name={"email"}/>
+              <input value={id} onChange={onInputChabge} type="hidden" name={"id"}/>
               <button className={"btn btn-primary"} type={"submit"}>
-                  Crear
+                  {id > 0 ? 'Editar' : 'Crear'}
               </button>
           </form>
       </>
