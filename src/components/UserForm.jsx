@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import Swal from "sweetalert2";
 
 export const UserForm = ({userSelected, handlerAddUser, initialUserForm}) => {
     const [userForm, setUserForm] = useState(initialUserForm);
@@ -19,7 +20,11 @@ export const UserForm = ({userSelected, handlerAddUser, initialUserForm}) => {
     const onSubmit = (event) => {
         event.preventDefault(); // ayuda a evitar recargo de la pagina
         if (!username || (!password && id === 0) || !email) {
-            alert("Complete los formularios");
+            Swal.fire(
+                'Error de validación',
+                'Complete los formularios',
+                'error'
+            )
             return;
         }
         handlerAddUser(userForm);
