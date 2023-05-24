@@ -1,6 +1,7 @@
 import {UserList} from "./components/UserList.jsx";
 import {UserForm} from "./components/UserForm.jsx";
 import {useUsers} from "./hooks/useUsers.js";
+import {UserModalForm} from "./components/UserModalForm.jsx";
 
 export const UsersApp = () => {
 
@@ -18,17 +19,14 @@ export const UsersApp = () => {
 
     return (
         <>
+            {
+                !visibleForm ||
+                <UserModalForm userSelected={userSelected} handlerCloseForm={handlerCloseForm}
+                               handlerAddUser={handlerAddUser} initialUserForm={initialUserForm}/>
+            }
             <div className="container my-4">
                 <h2>Users App</h2>
                 <div className="row">
-                    {
-                        !visibleForm ||
-                        <div className="col">
-                            <UserForm handlerCloseForm={handlerCloseForm} userSelected={userSelected} initialUserForm={initialUserForm}
-                                      handlerAddUser={handlerAddUser}/>
-                        </div>
-                    }
-
                     <div className="col">
                         {
                             visibleForm ||
