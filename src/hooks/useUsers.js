@@ -19,6 +19,7 @@ const initialUserForm = {
 export const useUsers = () => {
     const [users, dispatch] = useReducer(usersReducer, initialUsers); // es recomendable cuando tiene muchas acciones
     const [userSelected, setUserSelected] = useState(initialUserForm); // cuando solo tiene una accion
+    const [visibleForm, setVisibleForm] = useState(false);
 
     const handlerAddUser = (user) => {
         dispatch({
@@ -31,10 +32,14 @@ export const useUsers = () => {
             (user.id === 0 ? 'Usuario ha sido creado con exito!' : 'Usuario ha sido actualizado con exito'),
             'success'
         )
+
+        handlerCloseForm();
+        setUserSelected(initialUserForm);
     }
 
     const handlerUserSelectedForm = (user) => {
-        setUserSelected({...user})
+        handlerOpenForm();
+        setUserSelected({...user});
     }
 
     const handlerRemoveUser = (id) => {
@@ -65,12 +70,23 @@ export const useUsers = () => {
         })
     }
 
+    const handlerOpenForm = () => {
+        setVisibleForm(true);
+    }
+    const handlerCloseForm = () => {
+        setVisibleForm(false);
+        setUserSelected(initialUserForm)
+    }
+
     return {
         users,
         userSelected,
         initialUserForm,
+        visibleForm,
         handlerAddUser,
         handlerUserSelectedForm,
-        handlerRemoveUser
+        handlerRemoveUser,
+        handlerOpenForm,
+        handlerCloseForm
     }
 }
