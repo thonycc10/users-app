@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import {UsersPage} from "./pages/UsersPage.jsx";
 import {loginReducer} from "./auth/reducers/loginReducer.js";
 import {useReducer} from "react";
+import {Navbar} from "./components/layout/Navbar.jsx";
 
 // pagina publica
 const initialLogin = JSON.parse(sessionStorage.getItem('login')) || {
@@ -27,11 +28,24 @@ export const UsersApp = () => {
         }
     }
 
+    const handlerLogout = () => {
+      dispach({
+          type: 'logout'
+      });
+
+      sessionStorage.removeItem('login');
+    }
+
     return (
         <>
             {
                 login.isAuth ?
-                    <UsersPage />
+                    (
+                        <>
+                            <Navbar login={login} handlerLogout={handlerLogout}/>
+                            <UsersPage />
+                        </>
+                    )
                     :
                     <LoginPage handlerLogin={handlerLogin} />
             }
